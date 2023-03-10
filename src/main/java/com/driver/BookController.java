@@ -47,13 +47,17 @@ public class BookController {
     @PostMapping("/create-book")
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         // Your code goes here.
-        if(bookList.size()==0){
+        if(getBookList().size()==0){
             this.id=1;
-            bookList.add(id,book);
+            List<Book> x = getBookList();
+            x.add(id,book);
+            setBookList(x);
         }
         else{
             this.id++;
-            bookList.add(id,book);
+            List<Book> x = getBookList();
+            x.add(id,book);
+            setBookList(x);
         }
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
@@ -63,7 +67,7 @@ public class BookController {
     // getBookById()
     @GetMapping("/get-book-by-id/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable int id){
-        Book book = bookList.get(id);
+        Book book = getBookList().get(id);
         return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
@@ -72,7 +76,7 @@ public class BookController {
     // deleteBookById()
     @DeleteMapping("/delete-book-by-id/{id}")
     public ResponseEntity deleteBookById(@PathVariable int id){
-        Book book = bookList.remove(id);
+        Book book = getBookList().remove(id);
         return new ResponseEntity<>("deleted", HttpStatus.OK);
     }
 
@@ -80,7 +84,7 @@ public class BookController {
     // getAllBooks()
     @GetMapping("/get-all-books")
     public ResponseEntity getAllBooks(){
-        return new ResponseEntity<>(bookList, HttpStatus.OK);
+        return new ResponseEntity<>(getBookList(),HttpStatus.OK);
     }
 
 
@@ -88,7 +92,8 @@ public class BookController {
     // deleteAllBooks()
     @DeleteMapping("/delete-all-books")
     public ResponseEntity deleteAllBooks(){
-        bookList = new ArrayList<>();
+        List<Book> x = new ArrayList<>();
+        setBookList(x);
         return new ResponseEntity<>("Deleted", HttpStatus.OK);
     }
 
@@ -99,7 +104,7 @@ public class BookController {
     @GetMapping("/get-books-by-author")
     public ResponseEntity getBooksByAuthor(@RequestParam String author){
         Book ans = null;
-        for(Book book : bookList){
+        for(Book book : getBookList()){
             if(book.getAuthor().equals(author)){
                 ans = book;
                 break;
@@ -114,7 +119,7 @@ public class BookController {
     @GetMapping("/get-books-by-genre")
     public ResponseEntity getBooksByGenre(@RequestParam String genre){
         Book ans = null;
-        for(Book book : bookList){
+        for(Book book : getBookList()){
             if(book.getGenre().equals(genre)){
                 ans = book;
                 break;
