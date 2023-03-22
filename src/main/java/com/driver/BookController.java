@@ -26,7 +26,6 @@ public class BookController {
         this.id=1;
         this.bookDataBase = new HashMap<>();
     }
-
     public List<Book> getBookList() {
         return bookList;
     }
@@ -45,14 +44,15 @@ public class BookController {
     public void setBookDataBase(HashMap<Integer, Book> bookDataBase) {
         this.bookDataBase = bookDataBase;
     }
-
     // post request /create-book
     // pass book as request body
     @PostMapping("/create-book")
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         // Your code goes here.
+        book.setId(getId());
         bookList.add(book);
-        bookDataBase.put(book.getId(),book);
+
+        bookDataBase.put(id, book);
         id++;
         return new ResponseEntity<>(book, HttpStatus.CREATED);
     }
