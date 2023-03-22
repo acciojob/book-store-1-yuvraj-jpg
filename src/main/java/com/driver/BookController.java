@@ -22,12 +22,11 @@ public class BookController {
     private int id;
     private HashMap<Integer,Book> bookDataBase;
     public BookController() {
+        this.bookList = new ArrayList<>();
+        this.id=1;
+        this.bookDataBase = new HashMap<>();
     }
-    public BookController(List<Book> bookList, int id, HashMap<Integer, Book> bookDataBase) {
-        this.bookList = bookList;
-        this.id = id;
-        this.bookDataBase = bookDataBase;
-    }
+
     public List<Book> getBookList() {
         return bookList;
     }
